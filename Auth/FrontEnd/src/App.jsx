@@ -15,7 +15,7 @@ function App() {
   useEffect(()=>{
     axios.get('/user',{withCredentials:true})
     .then(()=> navigate('/profile'))
-    .catch(()=> navigate('/login'))
+    .catch(()=> navigate('/register'))
   },[])
 
   return (
