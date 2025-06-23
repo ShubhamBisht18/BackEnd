@@ -11,6 +11,15 @@ function Profile() {
             .then((res) => setUser(res.data))
             .catch(() => navigate('/login'))
     }, [])
+
+    const handleLogout = async() =>{
+        try {
+            await axios.post('/logout',{},{withCredentials: true})
+            navigate('/login')
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    }
     return (
         <div>
             {user && (
@@ -18,6 +27,9 @@ function Profile() {
                     <h2>Welcome, {user.name}</h2>
                     <p>Email: {user.email}</p>
                     <p>Mobile: {user.mobile}</p>
+                    <div>
+                        <button onClick={handleLogout}>Logout</button>
+                    </div>
                 </div>
             )}
         </div>

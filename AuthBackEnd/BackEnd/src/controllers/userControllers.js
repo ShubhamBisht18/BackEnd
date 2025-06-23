@@ -88,3 +88,13 @@ export const getUser = async (req, res) => {
         res.status(401).json({ message: "Invalid Token" })
     }
 }
+
+// controller/authController.js
+export const Logout = (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "Lax", // match your login/register setup
+        secure: false    // set to true in production with HTTPS
+    });
+    return res.status(200).json({ message: "Logged out successfully" });
+};
