@@ -43,6 +43,11 @@ function Dashboard() {
       {ready.map(order => (
         <div key={order._id} style={{ border: '1px solid', padding: 10, margin: 10 }}>
           <p><strong>User:</strong> {order.user.name} ({order.user.email})</p>
+          <ul>
+            {order.items.map((item, i) => (
+              <li key={i}>{item.name} - {item.quantity} × ₹{item.price}</li>
+            ))}
+          </ul>
           <p><strong>Total:</strong> ₹{order.totalAmount}</p>
           <p><strong>Status:</strong> Ready</p>
         </div>
@@ -52,6 +57,11 @@ function Dashboard() {
       {received.map(order => (
         <div key={order._id} style={{ border: '1px solid', padding: 10, margin: 10 }}>
           <p><strong>User:</strong> {order.user.name}</p>
+          <ul>
+            {order.items.map((item, i) => (
+              <li key={i}>{item.name} - {item.quantity} × ₹{item.price}</li>
+            ))}
+          </ul>
           <p><strong>Total:</strong> ₹{order.totalAmount}</p>
           <p><strong>Status:</strong> Received</p>
         </div>

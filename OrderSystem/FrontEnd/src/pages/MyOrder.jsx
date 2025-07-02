@@ -25,6 +25,11 @@ function MyOrders() {
           <p><strong>Seat:</strong> {order.seatNumber}</p>
           <p><strong>Total:</strong> ₹{order.totalAmount}</p>
           <p><strong>Status:</strong> {order.status}</p>
+          <ul>
+            {order.items.map((item, index) => (
+              <li key={index}>{item.name} - {item.quantity} × ₹{item.price}</li>
+            ))}
+          </ul>
           {order.status === 'Ready' && <button onClick={() => markAsReceived(order._id)}>Order Received</button>}
         </div>
       ))}
