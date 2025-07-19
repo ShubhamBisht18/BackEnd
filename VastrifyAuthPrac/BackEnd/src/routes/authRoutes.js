@@ -31,4 +31,17 @@ router.get("/admin-data", AuthMiddleware, AdminMiddleware, (req, res) => {
   res.status(200).json({ message: "Welcome Admin!" })
 })
 
+
+// 🔐 Promote a user to admin (OPTIONAL: add AdminMiddleware to restrict access)
+// router.post("/make-admin", AuthMiddleware, async (req, res) => {
+//   const { email } = req.body;
+//   const user = await User.findOne({ email });
+//   if (!user) return res.status(404).json({ message: "User not found" });
+
+//   user.role = 'admin';
+//   await user.save();
+
+//   res.status(200).json({ message: `${email} is now an admin.` });
+// });
+
 export default router

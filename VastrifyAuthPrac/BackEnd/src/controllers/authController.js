@@ -81,7 +81,8 @@ export const Login = async (req, res) => {
             return res.status(400).json({ message: "Invalid credentials" });
         }
         if (!user.isVerified) {
-            return res.status(403).json({ message: "Please verify your email first." });
+            return res.status(403).json({ message: "Please verify your email first."
+             });
         }
 
         const token = generateToken(user._id, user.role)
