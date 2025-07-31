@@ -3,8 +3,8 @@ import Register from "./pages/Auth/Register";
 import VerifyOtp from "./pages/Auth/VerifyOtp";
 import Login from "./pages/Auth/Login";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
-import VerifyResetOtp from "./pages/Auth/VerifyResetOtp"; 
-import ResetPassword from "./pages/Auth/ResetPassword";  
+import VerifyResetOtp from "./pages/Auth/VerifyResetOtp";
+import ResetPassword from "./pages/Auth/ResetPassword";
 import { AuthProvider } from "./context/AuthContext";
 
 import Home from './pages/Main/Home';
@@ -12,8 +12,8 @@ import About from './pages/Main/About';
 import Contact from './pages/Main/Contact';
 import Men from './pages/Main/Men';
 import Women from './pages/Main/Women';
-import Children from './pages/Main/Children';
 import MyOrder from './pages/Main/MyOrder';
+import Cart from "./pages/Main/Cart";
 
 import Dashboard from './pages/Main/Dashboard';
 import AddItem from './pages/Main/AddItem';
@@ -37,15 +37,15 @@ function App() {
 
         {/* Protected + Layout Routes */}
         <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-          {/* User Routes */}
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="my-order" element={<MyOrder />} />
           <Route path="men" element={<Men />} />
           <Route path="women" element={<Women />} />
-          <Route path="children" element={<Children />} />
-          <Route path="my-order" element={<MyOrder />} />
+          <Route path="cart/:id" element={<Cart />} />
+
 
           {/* Admin Routes */}
           <Route path="dashboard" element={<AdminRoute><Dashboard /></AdminRoute>} />
@@ -60,4 +60,3 @@ function App() {
 }
 
 export default App;
-

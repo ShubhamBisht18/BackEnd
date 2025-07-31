@@ -1,19 +1,30 @@
-import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "../../utils/axios";
+import ProductCard from "../../components/ProductCard";
 
 function Women() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const categories = ["shirt", "tshirt", "pant", "jeans", "shoes"];
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login");
-  };
+  useEffect(() => {
+    axios.get("/products").then(res => {
+      setProducts(res.data.filter(p => p.gender === "women"));
+    });
+  }, []);
 
   return (
     <div>
-      <h2>Welcome to Woman page, {user?.name}</h2>
-      <button onClick={handleLogout}>Logout</button>
+      <h2>Women's Products</h2>
+      {categories.map(cat => (
+        <div key={cat}>
+          <h3>{cat.toUpperCase()}</h3>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+            {products.filter(p => p.category === cat).map(p => (
+              <ProductCard key={p._id} product={p} />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

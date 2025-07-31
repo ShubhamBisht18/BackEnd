@@ -10,6 +10,8 @@ dotenv.config({
 
 import connectDB from './db/connect.js';
 import authRoutes from './routes/authRoutes.js'
+import productRoutes from './routes/productRoutes.js'
+import reviewRoutes from './routes/reviewRoutes.js'
 
 
 const port = process.env.PORT || 3000
@@ -20,7 +22,9 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Routes
-app.use('/api/auth',authRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/products', productRoutes);
+app.use("/api/review", reviewRoutes);
 
 
 // MongoDB Connnection

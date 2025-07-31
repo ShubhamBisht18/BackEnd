@@ -22,9 +22,6 @@ function Home() {
         <Link to="/women">
           <button>Women</button>
         </Link>
-        <Link to="/children">
-          <button>Children</button>
-        </Link>
       </div>
 
       <button onClick={handleLogout}>Logout</button>
