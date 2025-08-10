@@ -33,7 +33,7 @@ function Cart() {
     }
   };
 
-  if (!product) return <p>Loading...</p>;
+  if (!product) return <p className="text-center py-10 text-gray-500">Loading...</p>;
 
   const totalPrice = product.price * quantity;
 
@@ -103,7 +103,7 @@ function Cart() {
               alert("Payment verification failed.");
             }
           },
-          theme: { color: "#3399cc" },
+          theme: { color: "#6366f1" },
         };
 
         const rzp = new window.Razorpay(options);
@@ -115,82 +115,101 @@ function Cart() {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>{product.name}</h2>
-      <img src={product.photo} alt={product.name} width="200" />
-      <p>{product.description}</p>
-      <p><strong>Gender:</strong> {product.gender}</p>
-      <p><strong>Category:</strong> {product.category}</p>
-      <p><strong>Price (each):</strong> ₹{product.price}</p>
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      {/* Product Info */}
+      <div className="grid md:grid-cols-2 gap-8">
+        <img
+          src={product.photo}
+          alt={product.name}
+          className="w-full h-96 object-cover rounded-xl shadow-lg"
+        />
+        <div className="flex flex-col gap-4">
+          <h2 className="text-3xl font-bold">{product.name}</h2>
+          <p className="text-gray-600">{product.description}</p>
+          <p><span className="font-semibold">Gender:</span> {product.gender}</p>
+          <p><span className="font-semibold">Category:</span> {product.category}</p>
+          <p className="text-lg font-semibold text-indigo-600">₹{product.price}</p>
 
-      <div style={{ marginTop: "1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
-        <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
-        <span>{quantity}</span>
-        <button onClick={() => setQuantity(q => q + 1)}>+</button>
+          {/* Quantity */}
+          <div className="flex items-center gap-3">
+            <button onClick={() => setQuantity(q => Math.max(1, q - 1))}
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
+            <span className="font-semibold">{quantity}</span>
+            <button onClick={() => setQuantity(q => q + 1)}
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
+          </div>
+
+          {/* Location */}
+          <input
+            type="text"
+            placeholder="Enter delivery location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2 w-full focus:ring-2 focus:ring-indigo-400"
+          />
+
+          {/* Payment */}
+          <select
+            value={paymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2 w-full focus:ring-2 focus:ring-indigo-400"
+          >
+            <option value="Cash On Delivery">Cash On Delivery</option>
+            <option value="Online">Online Payment</option>
+          </select>
+
+          {/* Total Price */}
+          <h3 className="text-xl font-bold mt-4">Total: ₹{totalPrice}</h3>
+
+          <button
+            onClick={handleOrder}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg shadow-md transition"
+          >
+            Order Now
+          </button>
+        </div>
       </div>
 
-      <input
-        type="text"
-        placeholder="Enter delivery location"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        style={{ marginTop: "1rem", width: "100%", padding: "0.5rem" }}
-      />
-
-      <select
-        value={paymentMethod}
-        onChange={(e) => setPaymentMethod(e.target.value)}
-        style={{ marginTop: "1rem", width: "100%", padding: "0.5rem" }}
-      >
-        <option value="Cash On Delivery">Cash On Delivery</option>
-        <option value="Online">Online Payment</option>
-      </select>
-
-      <h3 style={{ marginTop: "1rem" }}>Total: ₹{totalPrice}</h3>
-
-      <button onClick={handleOrder} style={{ marginTop: "1rem" }}>
-        Order
-      </button>
-
-      <div style={{ marginTop: "2rem" }}>
-        <h3>Leave a Review</h3>
+      {/* Reviews */}
+      <div className="mt-12">
+        <h3 className="text-2xl font-bold mb-4">Leave a Review</h3>
         <textarea
           rows={3}
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
           placeholder="Write your comment..."
-          style={{ width: "100%" }}
+          className="border border-gray-300 rounded-lg p-2 w-full focus:ring-2 focus:ring-indigo-400"
         />
-        <div>
+        <div className="flex gap-2 my-2">
           {[1, 2, 3, 4, 5].map(star => (
             <span
               key={star}
               onClick={() => setRating(star)}
-              style={{
-                cursor: "pointer",
-                color: star <= rating ? "gold" : "gray",
-                fontSize: "1.5rem",
-              }}
+              className={`cursor-pointer text-2xl ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
             >★</span>
           ))}
         </div>
-        <button onClick={submitReview}>Submit Review</button>
-      </div>
+        <button
+          onClick={submitReview}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+        >
+          Submit Review
+        </button>
 
-      <div style={{ marginTop: "2rem" }}>
-        <h3>All Reviews</h3>
-        {reviews.length === 0 && <p>No reviews yet.</p>}
-        {reviews.map((rev, idx) => (
-          <div key={idx} style={{ border: "1px solid #ccc", padding: "1rem", marginBottom: "1rem" }}>
-            <div>
-              {"★".repeat(rev.rating)}
-              <span style={{ color: "gray" }}>
-                {"★".repeat(5 - rev.rating)}
-              </span>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-4">Customer Reviews</h3>
+          {reviews.length === 0 && <p className="text-gray-500">No reviews yet.</p>}
+          {reviews.map((rev, idx) => (
+            <div key={idx} className="border border-gray-200 rounded-lg p-4 mb-3 shadow-sm">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className={i < rev.rating ? "text-yellow-400" : "text-gray-300"}>★</span>
+                ))}
+              </div>
+              <p className="mt-2">{rev.comment}</p>
             </div>
-            <p>{rev.comment}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

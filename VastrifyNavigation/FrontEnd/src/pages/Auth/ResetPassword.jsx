@@ -19,21 +19,33 @@ function ResetPassword() {
   };
 
   return (
-    <div>
-      <h2>Reset Password</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          placeholder="New Password"
-          type="password"
-          {...register("newPassword")}
-          required
-        />
-        <br />
-        <button type="submit">Reset</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-900 via-teal-900 to-cyan-900 px-4">
+      <div className="bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-sm text-white">
+        <h2 className="text-3xl font-bold mb-6 text-center">Reset Password</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <label htmlFor="newPassword" className="block mb-2 font-semibold">
+              New Password
+            </label>
+            <input
+              id="newPassword"
+              type="password"
+              placeholder="Enter your new password"
+              {...register("newPassword")}
+              required
+              className="w-full px-4 py-3 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-teal-600 hover:bg-teal-700 py-3 rounded-md font-semibold transition"
+          >
+            Reset Password
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default ResetPassword;
-

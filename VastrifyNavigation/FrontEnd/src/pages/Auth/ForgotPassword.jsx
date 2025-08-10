@@ -11,7 +11,7 @@ function ForgotPassword() {
 
   useEffect(() => {
     if (passedEmail) {
-      setValue("email", passedEmail); // set email field if passed
+      setValue("email", passedEmail);
     }
   }, [passedEmail, setValue]);
 
@@ -26,20 +26,37 @@ function ForgotPassword() {
   };
 
   return (
-    <div>
-      <h2>Forgot Password</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type="email"
-          {...register("email")}
-          required
-          disabled
-        />
-        <br />
-        <button type="submit">Send OTP</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 px-4">
+      <div className="bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-sm text-white">
+        <h2 className="text-3xl font-bold mb-6 text-center">Forgot Password</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <label htmlFor="email" className="block mb-2 font-semibold">
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              {...register("email")}
+              required
+              disabled={!!passedEmail}
+              className={`w-full px-4 py-3 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                passedEmail ? "opacity-60 cursor-not-allowed" : ""
+              }`}
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-md font-semibold transition"
+          >
+            Send OTP
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default ForgotPassword;
+

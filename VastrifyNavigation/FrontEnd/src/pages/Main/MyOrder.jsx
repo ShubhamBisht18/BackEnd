@@ -25,28 +25,53 @@ function MyOrders() {
   };
 
   return (
-    <div>
-      <h2>My Orders</h2>
+    <div className="min-h-screen bg-gray-50 p-6 sm:p-12">
+      <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">My Orders</h2>
 
       {orders.length === 0 ? (
-        <p>You have not placed any orders yet.</p>
+        <p className="text-center text-gray-500 text-lg">You have not placed any orders yet.</p>
       ) : (
-        <div>
+        <div className="space-y-8 max-w-5xl mx-auto">
           {orders.map((order) => (
-            <div key={order._id} style={{ border: "1px solid black", margin: "1rem", padding: "1rem" }}>
-              <p><strong>Order ID:</strong> {order._id}</p>
-              <p><strong>Product:</strong> {order.item?.name || "N/A"}</p>
-              <p><strong>Price:</strong> ₹{order.item?.price}</p>
-              <p><strong>Quantity:</strong> {order.quantity}</p>
-              <p><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
-              <p><strong>Location:</strong> {order.location}</p>
-              <p><strong>Payment Method:</strong> {order.paymentMethod}</p>
-              <p><strong>Status:</strong> {order.status}</p>
+            <div
+              key={order._id}
+              className="bg-white shadow-md rounded-lg p-6 border border-gray-200"
+            >
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                <p className="font-semibold text-gray-700 break-words">
+                  <span className="text-gray-500">Order ID:</span> {order._id}
+                </p>
+                <p
+                  className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                    order.status === "Pending"
+                      ? "bg-yellow-200 text-yellow-800"
+                      : order.status === "Ready"
+                      ? "bg-blue-200 text-blue-800"
+                      : "bg-green-200 text-green-800"
+                  }`}
+                >
+                  {order.status}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+                <p><span className="font-semibold">Product:</span> {order.item?.name || "N/A"}</p>
+                <p><span className="font-semibold">Price:</span> ₹{order.item?.price}</p>
+                <p><span className="font-semibold">Quantity:</span> {order.quantity}</p>
+                <p><span className="font-semibold">Total Amount:</span> ₹{order.totalAmount}</p>
+                <p><span className="font-semibold">Location:</span> {order.location}</p>
+                <p><span className="font-semibold">Payment Method:</span> {order.paymentMethod}</p>
+              </div>
 
               {order.status === "Ready" && (
-                <button onClick={() => markAsReceived(order._id)}>
-                  Mark as Received
-                </button>
+                <div className="mt-6 flex justify-end">
+                  <button
+                    onClick={() => markAsReceived(order._id)}
+                    className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md shadow-md transition"
+                  >
+                    Mark as Received
+                  </button>
+                </div>
               )}
             </div>
           ))}

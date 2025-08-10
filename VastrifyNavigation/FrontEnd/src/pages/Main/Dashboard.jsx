@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../../utils/axios";
 
 function Dashboard() {
@@ -24,91 +24,88 @@ function Dashboard() {
     }
   };
 
-  const pendingOrders = orders.filter((o) => o.status === "Pending");
-  const readyOrders = orders.filter((o) => o.status === "Ready");
-  const receivedOrders = orders.filter((o) => o.status === "Received");
+  const sections = [
+    { title: "Pending Orders", status: "Pending", action: "Mark as Ready" },
+    { title: "Ready Orders", status: "Ready" },
+    { title: "Completed Orders", status: "Received" },
+  ];
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h2>Admin Dashboard</h2>
+    <div className="min-h-screen bg-gray-50 p-6 md:p-12">
+      <h1 className="text-3xl font-bold mb-8 text-gray-900">Admin Dashboard</h1>
 
-      {/* Pending Orders */}
-      <h3 style={{ marginTop: "1.5rem" }}>Pending Orders</h3>
-      {pendingOrders.length === 0 ? (
-        <p>No pending orders</p>
-      ) : (
-        pendingOrders.map((order) => (
-          <div
-            key={order._id}
-            style={{
-              border: "1px solid black",
-              padding: "1rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <p><strong>User:</strong> {order.user?.name} ({order.user?.email})</p>
-            <p><strong>Product:</strong> {order.item?.name}</p>
-            <p><strong>Price:</strong> ₹{order.item?.price}</p>
-            <p><strong>Quantity:</strong> {order.quantity}</p>
-            <p><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
-            <p><strong>Payment Method:</strong> {order.paymentMethod}</p>
-            <p><strong>Paid:</strong> {order.isPaid ? "Yes" : "No"}</p>
-            <p><strong>Location:</strong> {order.location}</p>
-            <p><strong>Status:</strong> {order.status}</p>
-            <button onClick={() => updateStatus(order._id, "Ready")}>
-              Mark as Ready
-            </button>
-          </div>
-        ))
-      )}
+      {sections.map(({ title, status, action }) => {
+        const filteredOrders = orders.filter((o) => o.status === status);
 
-      {/* Ready Orders */}
-      <h3 style={{ marginTop: "2rem" }}>Ready Orders</h3>
-      {readyOrders.length === 0 ? (
-        <p>No ready orders</p>
-      ) : (
-        readyOrders.map((order) => (
-          <div
-            key={order._id}
-            style={{
-              border: "1px solid black",
-              padding: "1rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <p><strong>User:</strong> {order.user?.name} ({order.user?.email})</p>
-            <p><strong>Product:</strong> {order.item?.name}</p>
-            <p><strong>Price:</strong> ₹{order.item?.price}</p>
-            <p><strong>Quantity:</strong> {order.quantity}</p>
-            <p><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
-            <p><strong>Status:</strong> {order.status}</p>
-          </div>
-        ))
-      )}
+        return (
+          <section key={status} className="mb-12">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-800">{title}</h2>
 
-      {/* Received Orders */}
-      <h3 style={{ marginTop: "2rem" }}>Completed Orders</h3>
-      {receivedOrders.length === 0 ? (
-        <p>No completed orders</p>
-      ) : (
-        receivedOrders.map((order) => (
-          <div
-            key={order._id}
-            style={{
-              border: "1px solid black",
-              padding: "1rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <p><strong>User:</strong> {order.user?.name} ({order.user?.email})</p>
-            <p><strong>Product:</strong> {order.item?.name}</p>
-            <p><strong>Price:</strong> ₹{order.item?.price}</p>
-            <p><strong>Quantity:</strong> {order.quantity}</p>
-            <p><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
-            <p><strong>Status:</strong> {order.status}</p>
-          </div>
-        ))
-      )}
+            {filteredOrders.length === 0 ? (
+              <p className="text-gray-600">No {title.toLowerCase()}</p>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {filteredOrders.map((order) => (
+                  <div
+                    key={order._id}
+                    className="bg-white rounded-lg shadow-md p-5 border border-gray-200"
+                  >
+                    <p className="font-semibold text-gray-700 mb-1">
+                      User:{" "}
+                      <span className="font-normal">
+                        {order.user?.name} ({order.user?.email})
+                      </span>
+                    </p>
+                    <p className="font-semibold text-gray-700 mb-1">
+                      Product:{" "}
+                      <span className="font-normal">{order.item?.name}</span>
+                    </p>
+                    <p className="font-semibold text-gray-700 mb-1">
+                      Price:{" "}
+                      <span className="font-normal">₹{order.item?.price}</span>
+                    </p>
+                    <p className="font-semibold text-gray-700 mb-1">
+                      Quantity: <span className="font-normal">{order.quantity}</span>
+                    </p>
+                    <p className="font-semibold text-gray-700 mb-1">
+                      Total Amount:{" "}
+                      <span className="font-normal">₹{order.totalAmount}</span>
+                    </p>
+                    {order.paymentMethod && (
+                      <p className="font-semibold text-gray-700 mb-1">
+                        Payment Method:{" "}
+                        <span className="font-normal">{order.paymentMethod}</span>
+                      </p>
+                    )}
+                    {typeof order.isPaid === "boolean" && (
+                      <p className="font-semibold text-gray-700 mb-1">
+                        Paid: <span className="font-normal">{order.isPaid ? "Yes" : "No"}</span>
+                      </p>
+                    )}
+                    {order.location && (
+                      <p className="font-semibold text-gray-700 mb-1">
+                        Location: <span className="font-normal">{order.location}</span>
+                      </p>
+                    )}
+                    <p className="font-semibold text-gray-700 mb-4">
+                      Status: <span className="font-normal">{order.status}</span>
+                    </p>
+
+                    {action && (
+                      <button
+                        onClick={() => updateStatus(order._id, "Ready")}
+                        className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-2 rounded-md shadow-md transition"
+                      >
+                        {action}
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        );
+      })}
     </div>
   );
 }
