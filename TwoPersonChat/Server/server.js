@@ -1,6 +1,7 @@
 import express from "express";
 import http from 'http'
 import { Server } from "socket.io";
+// import { text } from "stream/consumers";
 
 const port = 3000
 
@@ -16,7 +17,7 @@ const io = new Server(server, {
 
 
 io.on("connection", (socket) => {
-    console.log("User Connected!!!")
+    console.log("User Connected!!!",socket.id)
     socket.on("sendMessage", (mssg) => {
         io.emit("receiveMessage", mssg)
     })
